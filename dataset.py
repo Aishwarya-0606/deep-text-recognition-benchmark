@@ -40,7 +40,9 @@ class Batch_Balanced_Dataset(object):
             print(dashed_line)
             log.write(dashed_line + '\n')
             _dataset, _dataset_log = hierarchical_dataset(root=opt.train_data, opt=opt, select_data=[selected_d])
+            print("\nIn line 43 in dataset.py _dataset is: {}".format(_dataset))
             total_number_dataset = len(_dataset)
+            print("total_number_dataset is {}".format(total_number_dataset))
             log.write(_dataset_log)
 
             """
@@ -85,6 +87,7 @@ class Batch_Balanced_Dataset(object):
         for i, data_loader_iter in enumerate(self.dataloader_iter_list):
             try:
                 image, text = data_loader_iter.next()
+                # print(image, text , '\n') # By ME
                 balanced_batch_images.append(image)
                 balanced_batch_texts += text
             except StopIteration:
@@ -159,6 +162,7 @@ class LmdbDataset(Dataset):
                     index += 1  # lmdb starts with 1
                     label_key = 'label-%09d'.encode() % index
                     label = txn.get(label_key).decode('utf-8')
+                    # print("\nLABEL is {}".format(label)) #By ME
 
                     if len(label) > self.opt.batch_max_length:
                         # print(f'The length of the label is longer than max_length: length
@@ -168,7 +172,8 @@ class LmdbDataset(Dataset):
                     # By default, images containing characters which are not in opt.character are filtered.
                     # You can add [UNK] token to `opt.character` in utils.py instead of this filtering.
                     out_of_char = f'[^{self.opt.character}]'
-                    if re.search(out_of_char, label.lower()):
+                    # if re.search(out_of_char, label.lower()):
+                    if re.search(out_of_char, label):
                         continue
 
                     self.filtered_index_list.append(index)
@@ -185,6 +190,7 @@ class LmdbDataset(Dataset):
         with self.env.begin(write=False) as txn:
             label_key = 'label-%09d'.encode() % index
             label = txn.get(label_key).decode('utf-8')
+            # print("\nIn line 191 in dataset.py LABEL is: {}".format(label))
             img_key = 'image-%09d'.encode() % index
             imgbuf = txn.get(img_key)
 
@@ -206,13 +212,14 @@ class LmdbDataset(Dataset):
                     img = Image.new('L', (self.opt.imgW, self.opt.imgH))
                 label = '[dummy_label]'
 
-            if not self.opt.sensitive:
+            if not self.opt.sensitive: # commented by ME
                 label = label.lower()
 
             # We only train and evaluate on alphanumerics (or pre-defined character set in train.py)
-            out_of_char = f'[^{self.opt.character}]'
-            label = re.sub(out_of_char, '', label)
-
+            out_of_char = f'[^{self.opt.character}]' # commented by ME
+            # label = re.sub(out_of_char, '', label)   # commented by ME
+            # print("out_of_char is {}".format(out_of_char))
+            # print("\nIn line 221 in dataset.py LABEL is: {}".format(label))
         return (img, label)
 
 
