@@ -1,9 +1,11 @@
-# What Is Wrong With Scene Text Recognition Model Comparisons? Dataset and Model Analysis
+# STAR-Net: A SpaTial Attention Residue Network for Scene Text Recognition
 | [Original Code](https://github.com/clovaai/deep-text-recognition-benchmark) | [paper](https://arxiv.org/abs/1904.01906) | [training and evaluation data](https://drive.google.com/drive/folders/1ShItNWXyiY1tFDM5W02bceHuJjyeeJl2) | [pretrained model](https://drive.google.com/drive/folders/15WPsuPJDCzhp2SvYZLRj8mAlT3zmoAMW) | [Baidu ver(passwd:rryk)](https://pan.baidu.com/s/1KSNLv4EY3zFWHpBYlpFCBQ) |
 
 Official PyTorch implementation of our four-stage STR framework, that most existing STR models fit into. <br>
 Using this framework allows for the module-wise contributions to performance in terms of accuracy, speed, and memory demand, under one consistent set of training and evaluation datasets. <br>
 Such analyses clean up the hindrance on the current comparisons to understand the performance gain of the existing modules. <br><br>
+
+## Scene Text Recognition Model Comparisons
 <img src="./figures/trade-off.png" width="1000" title="trade-off">
 
 ## Overview
